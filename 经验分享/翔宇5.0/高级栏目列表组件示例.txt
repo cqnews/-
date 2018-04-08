@@ -1,0 +1,54 @@
+﻿// 参数基本和稿件列表一致，栏目取稿件的参数统一设置
+// columnid 栏目id 
+// articletype：稿件类型 
+// start：稿件起始位置 
+// count：稿件数量  
+// columntype:栏目列表类型  self 自身 /son 子栏目/root 根栏目 /brother 兄弟栏目
+
+
+<FOUNDER-XY type="advcolumnlist" data="{'columnid':[], 'columntype':'self','articletype': 'all', 'start':0, 'count':3}">
+//当前栏目 各属性 参考栏目组件
+<#list column.articles as article>
+	<a href="${column.url!}">${column.name}</a>
+	//当前栏目稿件列表 各属性 参考稿件列表组件
+	<#list column.articles as article>
+			<a href="${article.url!}" target="_blank">${article.title!}</a>		
+	</#list>
+	</#list>
+</FOUNDER-XY>
+
+
+<FOUNDER-XY type="advcolumnlist" data="{'columnid':[], 'columntype':'son','articletype': 'all', 'start':0, 'count':3}">
+//当前栏目 各属性 参考栏目组件
+<#list column.articles as article>
+	<a href="${column.url!}">${column.name}</a>
+	//当前栏目稿件列表 各属性 参考稿件列表组件
+	<#list column.articles as article>
+			<a href="${article.url!}" target="_blank">${article.title!}</a>		
+	</#list>
+	</#list>
+</FOUNDER-XY>
+
+<FOUNDER-XY type="advcolumnlist" data="{'columnid':[], 'columntype':'root','articletype': 'all', 'start':0, 'count':3}">
+//当前栏目 各属性 参考栏目组件
+<#list column.articles as article>
+	<a href="${column.url!}">${column.name}</a>
+	//当前栏目稿件列表 各属性 参考稿件列表组件
+	<#list column.articles as article>
+			<a href="${article.url!}" target="_blank">${article.title!}</a>		
+	</#list>
+	</#list>
+</FOUNDER-XY>
+
+
+<FOUNDER-XY type="advcolumnlist" data="{'columnid':[], 'columntype':'brother','articletype': 'all', 'start':0, 'count':3}">
+//当前栏目 各属性 参考栏目组件
+<#list column.articles as article>
+	<a href="${column.url!}">${column.name}</a>
+	//当前栏目稿件列表 各属性 参考稿件列表组件
+	<#list column.articles as article>
+			<a href="${article.url!}" target="_blank">${article.title!}</a>		
+	</#list>
+	</#list>
+</FOUNDER-XY>
+

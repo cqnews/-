@@ -1,7 +1,0 @@
-1、高级栏目列表有一个隐藏属性，可以取当前栏目的父栏目，columntype设为parent
-2、可通过item?size获取循环个数，例如columns?size
-3、可通过item_has_next判断循环是否有下一个项目
-4、栏目列表有一个隐藏属性，可提取栏目外部链接 column.linkUrl
-5、稿件列表按时间排序<#list articles?sort_by("pubTime")?reverse as article>
-6、标题截取固定长度字符串，<#if article.title?length lte 18>${article.title?replace("<.*?>","","r")}
-<#else>${article.title?replace("<.*?>","","r")[0..17]}</#if>，必须加判断，否则会出错。
