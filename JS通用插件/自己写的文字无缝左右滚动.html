@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>文字无缝左右滚动</title>
+		<style>
+		    @charset "utf-8";
+            html{font-size: 62.5%;}
+            body {margin:0 auto;padding:0;overflow-x:hidden;overflow-y:auto; background: #eaeaea;}
+            body, h1, h2, h3, h4, h5, h6,form{margin: 0px; padding:0px}
+            h1, h2, h3, h4, h5, h6 { font-weight: normal}
+            ul { margin:0; padding:0; list-style:none }
+            li {margin:0; padding:0;}
+            a {color:#000}
+            a:link {text-decoration: none;}
+            a:visited {text-decoration: none;}
+            a:hover {text-decoration: underline;}
+            a:active {text-decoration: none;}
+            img { border:0;}
+            dl{margin:0; padding:0}
+            dl dd{margin:0}
+            .float_left{float:left}
+            .float_right{float:right}
+            .clear{clear:both; line-height:0; padding:0; margin:0}
+		    /**滚动文字**/
+            .yss { overflow: hidden; width: 842px; float: left;} 
+            .yss .yss { /*width:99999999px;*/ width: 8000%; height: 46px; } 
+            .yss .yss div { float: left; } 
+            .yss .yss ul { float: left; height: 44px; padding-top: 2px; overflow: hidden; zoom: 1; } 
+            .yss .yss ul li { font-family: "宋体"; font-size: 14px; float: left; line-height: 44px; list-style: none; margin-right: 10px; } 
+            .yss li a { color: #4a4a4a; }
+		</style>
+	</head>
+	<body>
+        <div id="demo" class="yss">
+            <div class="yss">
+                <div id="demo1">
+                    <ul>
+                        <li>·中共中央召开党外人士座谈会 习近平主持并发表重要讲话</li>
+                        <li>·习近平致信祝贺第十九届国际植物学大会开幕 李克强作出批示表示祝贺</li>
+                        <li>·习近平主持政治局会议 分析研究当前经济形势和经济工作</li>
+                        <li>·户籍制度改革三周年观察：迈出实质性“三大步”</li>
+                        <li>·【砥砺奋进的五年·法治中国新时代】向冤假错案说“不”</li>
+                        <li>·学习贯彻习近平总书记在全国金融工作会议上重要讲话:市场导向 健全规则</li>
+                    </ul>
+                </div>
+                <div id="demo2"></div>
+            </div>
+        </div>
+        <script>
+            function Marquee(demo,speed){
+                var demo1 = document.getElementById(demo.id + "1");
+                var demo2 = document.getElementById(demo.id + "2");
+                demo2.innerHTML = document.getElementById("demo1").innerHTML;
+                function Marquee() {
+                    if(demo.scrollLeft - demo2.offsetWidth >= 0) {
+                        demo.scrollLeft -= demo1.offsetWidth;
+                    } else {
+                        demo.scrollLeft++;
+                    };
+                };
+                var myvar = setInterval(Marquee, speed);
+                demo.onmouseout = function() {
+                    myvar = setInterval(Marquee, speed);
+                };
+                demo.onmouseover = function() {
+                    clearInterval(myvar);
+                }; 
+            };
+        </script>
+        <script type="text/javascript">
+            Marquee(document.getElementById("demo"),30);//Marquee(需要滚动的dom,速度);
+            /*HTML结构：  
+            <div id=demo>
+                <div id=demo1></div>
+                <div id=demo2></div>
+            </div>
+            id名称demo可以自己定义，但是必须名称要一样。例如可以改成id = a; id = a1; id = a2;
+            */
+        </script>
+	</body>
+</html>
