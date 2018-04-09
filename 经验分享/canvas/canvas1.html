@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>添加水印</title>
+		<style type="text/css">
+			html,body{height: 100%;}
+		</style>
+		<script type="text/javascript" src="http://www.cqnews.net/js/jquery-1.7.min.js" ></script>
+	</head>
+	<body>
+		<script>
+		$(function(){
+			function getCanvasImage(text){
+				var canvas = document.createElement("canvas");
+				canvas.width = "150";
+				canvas.height = "150";
+				var ctx=canvas.getContext("2d");
+				ctx.beginPath();
+				ctx.translate(75,75);
+				ctx.rotate(-45*Math.PI/180);
+				ctx.font="16px microsoft yahei";
+				ctx.fillStyle='#d4d4d4';
+				ctx.fillText(text,-75,0);
+				ctx.closePath();
+				return canvas.toDataURL();
+			}
+			$('body').css('background','url('+getCanvasImage("水印测试")+')');			
+		})
+		</script>
+		
+	</body>
+</html>

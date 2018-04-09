@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<title>刮刮乐</title>
+<style type="text/css">
+	*{margin: 0;padding: 0;list-style: none;}
+	.bg{display: block;width: 100%;position: absolute;left: 0;top: 0;}
+	#ggl{position: relative; width: 200px;height: 200px;background: url(http://act.cqnews.net/lfq/h5/img/a3.jpg);}
+	#ggl canvas{position: absolute;left: 0;top: 0;}
+</style>
+<script type="text/javascript" src="http://www.cqnews.net/js/jquery-1.7.min.js" ></script>
+</head>
+<body>
+	<div id="ggl">		
+		<canvas></canvas>
+	</div>
+	
+	<script type="text/javascript">
+		$(function(){
+			//擦涂大小，多少完成
+			var mousePosition={
+				color:"#ccc",     //覆盖层颜色
+				img:"",           //覆盖层使用图片
+				touch:15,         //刮刮范围半径15px
+				pt:0.1,           //完成多少是清除所有0-1
+				calFu:function(){ //完成后执行的回调函数
+					alert("恭喜你中了"+Math.floor(Math.random()*10)+'元')
+				} 
+			}
+			
+			var canvas=document.querySelector('canvas'),
+				ctx=canvas.getContext('2d');
+			//判断是否是pc
+			var flag=true;
+			if ((navigator.userAgent.match(/(iPhone|iPod|Android|ios|iPad)/i))){
+				flag=false;
+			}	
+		
+			//canvas宽高	
+			canvas.width=document.getElementById('ggl').clientWidth;
+			canvas.height=document.getElementById('ggl').clientHeight;
+					
+			var guaguale={
+				//初始化
+				init:function(){
+					this.bomo();
+					this.setmouse();
+				},
+				//初始覆盖层
+				bomo:function(e){
+					ctx.beginPath();						
+					if(mousePosition.img){
+						var coverimg=new Image();
+						coverimg.src=mousePosition.img;
+						coverimg.onload=function(){
+							ctx.drawImage(coverimg,0,0,canvas.width,canvas.height)
+						}
+					}else{
+						ctx.fillStyle=mousePosition.color;
+						ctx.fillRect(0,0,canvas.width,canvas.height);
+					}			
+					ctx.closePath();			
+				},
+				//利用重叠区域透明，实现擦涂
+				clearArc:function(_x,_y,touch){		    
+				    ctx.globalCompositeOperation = "destination-out";
+				    //destination-out源图像外的内容显示，源图像透明；source-over源图像覆盖在目标图像上
+				    ctx.beginPath();		
+				    ctx.arc(_x, _y, touch, 0, Math.PI * 2);
+				    ctx.fill();
+				    ctx.globalCompositeOperation = "source-over";
+				},
+				//计算像素
+				cale:function(){
+					var xs=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+					var xss=0;
+					for(var i=3;i<xs.length;i+=4){
+						if(xs[i]==0){
+							xss++;
+						}
+					}
+
+					if(xss > canvas.width*canvas.height*mousePosition.pt){
+						ctx.clearRect(0,0,canvas.width,canvas.height);
+						mousePosition.calFu();
+					}
+				},
+				//移动开始擦涂
+				eraser:function(){
+					self=this;
+					if(flag){
+						canvas.onmousemove = function(ev){
+							self.clearArc(ev.offsetX,ev.offsetY,mousePosition.touch);
+						}
+					}else{
+						canvas.addEventListener('touchmove',function(ev){
+							var touchX=ev.targetTouches[0].clientX-ev.target.offsetParent.offsetLeft;
+							var touchY=ev.targetTouches[0].clientY-ev.target.offsetParent.offsetTop;
+							self.clearArc(touchX,touchY,mousePosition.touch);
+						})
+					}			
+				},
+				//鼠标点击或手指触摸事件
+				setmouse:function(){
+					var self=this;
+					if(flag){
+						canvas.onmousedown=function(ev){
+							self.eraser();
+						}
+						document.onmouseup=function(){
+							canvas.onmousemove=null;
+							self.cale();
+						}
+					} else {
+						canvas.addEventListener('touchstart',function(){
+							self.eraser();
+						})
+						document.ontouchend=function(){
+							canvas.ontouchmove=null;
+							self.cale();
+						}
+					}			
+				}
+			}
+			guaguale.init();		
+		})	
+	</script>
+</body>
+</html>
