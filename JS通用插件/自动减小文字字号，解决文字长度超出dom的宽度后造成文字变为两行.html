@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>自动减小文字字号，解决文字长度超出dom的宽度后造成文字变为两行</title>
+	</head>
+	<body>
+        <script src="http://www.cqnews.net/js/jquery.min.js"></script>
+        <style>
+            .a{width: 300px; line-height: 40px; font-size: 24px; border: 1px solid #ccc;}
+        </style>
+        <div class="a">文字溢出，自动缩小字号，避免撑开页面布局</div>
+        
+        <script>
+            changeSize($(".a"),24,42);//changeSize(dom节点,默认字号,默认高度)
+            /*
+                                                作者：7070520@qq.com
+                                                时间：2018-04-09
+                                                描述：自动减小文字字号，解决文字长度超出dom的宽度后造成文字变为两行，
+                                                            设置了最小字号为12号，12号后不会再减小字号。
+                                                            设置方式： changeSize(dom节点,默认的最大字号,默认高度)。
+             */
+
+            function changeSize(doms,fontSize,h){
+                var nh=doms.height();
+                if(
+                    !(nh <= h) && (fontSize >= 12)
+                ) {
+                    doms.css("fontSize", fontSize);
+                    fontSize--;
+                    changeSize(doms,fontSize,h);
+                } else {
+                    return
+                };
+            };
+        </script>
+	    
+	    
+	</body>
+</html>
