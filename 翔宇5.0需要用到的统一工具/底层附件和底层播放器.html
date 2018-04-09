@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>底层附件和底层播放器</title>
+</head>
+
+<body>
+<style type="text/css">
+.attch {
+	border-top: 1px dotted #ccc;
+    padding-top: 15px;
+	margin-top:15px;
+}
+.attch a {
+	display: block;
+    font-size: 14px;
+    height:30px;
+	line-height:30px;
+}
+.attch h3 {
+    font-size: 16px;
+    /* color: #555; */
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+#vdo { text-align:center; padding:10px 0; }
+</style>
+<FOUNDER-XY type="article" data="{'articleid':''}">
+    <div id="vdo"></div>
+    <div class="attch">
+      <h3>== 附件下载==</h3>
+      <div><#list article.widgets.attachments as attachment><a href="${attachment.url}" target="_blank">&middot;${attachment.content}</a></#list></div>
+    </div>
+</FOUNDER-XY>
+
+<script src="http://www.cqybdj.gov.cn/templateRes/201705/12/9/ckplayer/ckplayer.js" charset="utf-8" type="text/javascript"></script>
+<script type="text/javascript">
+$(function(){
+	var mediaUrl = "", attch = $(".attch a");
+	if (!attch[0]) $(".attch").remove();
+	else {
+		attch.each(function(){
+			var tmp = $(this).attr("href");
+			if (tmp.substr(tmp.length-4,4).toLowerCase() == ".mp4" || tmp.substr(tmp.length-4,4).toLowerCase() == ".flv" ) {
+				mediaUrl = tmp;
+				$(this).remove();
+			}
+		});
+		if ($.trim($(".attch div").html()) == "") $(".attch").remove();
+		if (mediaUrl) loadPlayer(mediaUrl);
+		else $("#vdo").remove();
+	}
+	function loadPlayer(url) {
+		var flashvars = {f:url,c:0,b:1,p:1};
+		var params = {bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
+		CKobject.embedSWF('http://www.cqybdj.gov.cn/templateRes/201705/12/9/ckplayer/ckplayer.swf','vdo','ckplayer_a1','655','430',flashvars,params);
+	}
+});
+</script>
+
+
+</body>
+</html>
